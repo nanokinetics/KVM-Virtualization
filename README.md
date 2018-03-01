@@ -11,28 +11,84 @@
 Using KVM we can run multiple virtual machines within a server. It does support multiple operating systems ranging from Windows, SUSE, CentOS, Ubuntu, ...
 
 ### KVM Hypervisor Advantages
-
+- Open Source Solution (No vendor lock-in)
+- Cross platform support
+- Affordable
+- High performance w.r.t workloads
+- Secure (SELinux support)
 
 
 ## Check if VT (i.e. Virtualization Technology) is enabled/support on the KVM host
 
 ```sh
-grep -E 'svm|vmx' /proc/cpuinfo
+grep -E '(svm|vmx)' /proc/cpuinfo
 ```
+
 
 ## Installing KVM Packages and enable the required serviced
 
 Centos 7 OS:
 
 ```sh
-sudo yum group install "Virtualization Host"
+sudo yum groupinstall "Virtualization Host"
 sudo yum install virt-manager
 ```
 
 Alternatively, 
-```sh
-yum install qemu-kvm libvirt libvirt-python libguestfs-tools virt-install -y
+```bash
+# yum install qemu-kvm libvirt libvirt-python libguestfs-tools virt-install -y
+
+yum install qemu-kvm qemu-img libvirt virt-install libvirt-python virt-manager virt-install libvirt-client virt-viewer -y
 ```
+
+- `qemu-kvm` = QEMU Emulator 
+- `qemu-img` = QEMU Disk Image Manager
+- `virt-viewer` = Graphical Interface to see virtual machine console
+- `virt-manager` = GUI to Manage Virtual Machines
+- `libvirt` = libvirtd daemon to run services
+- `libvirt-client` = Libvirt client packages
+
+After installing required packages verify KVM module is visible from kernel using below command. Insert KVM module to kernel using `modprobe` command
+
+```sh 
+lsmod | grep kvm
+
+modprobe kvm
+
+lsmod | grep kvm
+```
+
+Now start KVM supportable services:
+
+```sh
+systemctl enable libvirt-guests.service
+
+systemctl enable libvirtd
+
+systemctl start libvirt-guests.service
+
+systemctl start libvirtd
+
+systemctl status libvirt-guests.service 
+
+systemctl status libvirtd
+```
+
+**NOTE**: 
+Note: virt-Manager and virt-viewer required Graphical User Interface to launch virtual machine manager
+
+If you have installed only minimal installation Operating system then you must install GUI
+
+```sh
+yum install "@X Window System" xorg-x11-xauth xorg-x11-fonts-* xorg-x11-utils -y
+```
+
+Or
+
+```sh
+yum groupinstall "Server with GUI"
+```
+
 
 Status check:
 ```sh
@@ -81,6 +137,14 @@ Log out and log back in for the current user to activate the changes made.
 ## GUI Management
 
 Use the app `virt-manager` to manage your KVM installation through the GUI.
+
+Start Virt-Manager 
+By Default virtual machines supportable files are going to store in `/var/lib/libvirt/images/` make sure before start virt-manager you have enough space to deploy /create virtual machine. 
+
+virt-manager we can either from command line or GUI ( install KVM Hypervisor ) 
+
+From GUI Click on Applications –> System Tools –> Virtual Machine Manager
+
 
 
 ## CLI Management
