@@ -1,12 +1,23 @@
 # KVM-Virtualization
 
-## Installing KVM Packages
+## Check if VT (i.e. Virtualization Technology) is enabled/support on the KVM host
+
+```sh
+grep -E 'svm|vmx' /proc/cpuinfo
+```
+
+## Installing KVM Packages and enable the required serviced
 
 Centos 7 OS:
 
 ```sh
 sudo yum group install "Virtualization Host"
 sudo yum install virt-manager
+```
+
+Alternatively, 
+```sh
+yum install qemu-kvm libvirt libvirt-python libguestfs-tools virt-install -y
 ```
 
 Status check:
@@ -97,8 +108,24 @@ You'll need to mount an ISO containing the virtio drivers during Windows guest i
 During installation, mount the iso `/usr/share/virtio-win/virtio-win.iso` and load the `viostor`, `netkvm`, and `balloon` drivers.
 
 
+## Configure the Networking for KVM
 
+### Update the Base Interface File (BIF).
+In this example, `eth1` is the interface connected to internet and will be used as Bridge Interface for the VMs.
 
+```sh
+cat /etc/sysconfig/network-scripts/ifcfg-eth1
+```
+
+```
+TYPE=Ethernet
+NAME=eth1
+ONBOOT=yes
+HWADDR=00:0c:29:44:3d:2d
+BRIDGE=virbr0
+```
+
+### 
 
 
 
