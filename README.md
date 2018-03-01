@@ -1,5 +1,13 @@
 # KVM-Virtualization
 
+## Smart Facts to Remember
+- KVM, kernel-based virtual machine
+- KVM is a type-2 Hypervisor, which means it runs on a host operating system
+- Other type-2 hypervisors: VirtualBox and Hyper-V
+- In contrast, type-1 hypervisors run on the bare metal and don't need a host operating system.
+- Type-2 Hypervisors include Xen and VMware ESX.
+
+
 ## Check if VT (i.e. Virtualization Technology) is enabled/support on the KVM host
 
 ```sh
