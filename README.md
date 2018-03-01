@@ -141,7 +141,7 @@ Use the app `virt-manager` to manage your KVM installation through the GUI.
 Start Virt-Manager 
 By Default virtual machines supportable files are going to store in `/var/lib/libvirt/images/` make sure before start virt-manager you have enough space to deploy /create virtual machine. 
 
-virt-manager we can either from command line or GUI ( install KVM Hypervisor ) 
+`virt-manager` we can either from command line or GUI ( install KVM Hypervisor ) 
 
 From GUI Click on Applications –> System Tools –> Virtual Machine Manager
 
@@ -160,8 +160,20 @@ Use `virt-install` to install VMs, use `virsh` to manage them. I almost never us
 ```sh
 
 man virt-install
+
+virt-install --name=microRHEL7 \
+    --ram=1024 \
+    --vcpus=1 \
+    --cdrom=/var/lib/libvirt/images/rhel-server-7.3-x86_64-dvd.iso \
+    --os-type=linux \
+    --os-path=/var/lib/libvirt/images/rhel7.dsk,size=20
+```
+
+```sh
+
 # List all guests/domains on system, including those that are powered off
 virsh list --all
+
 # Turn on a guest
 virsh start <domain>
 # Shutdown the guest
@@ -208,7 +220,11 @@ BRIDGE=virbr0
 
 
 
+## Reference
 
+1. [HowTo Install KVM Hypervisor RHEL 7 Kernel-Based Virtual Machine](https://arkit.co.in/howto-install-kvm-hypervisor-rhel-7/)
+
+2. 
 
 
 
