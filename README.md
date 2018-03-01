@@ -1,11 +1,17 @@
 # KVM-Virtualization
 
 ## Smart Facts to Remember
-- KVM, kernel-based virtual machine
+- KVM stands for Kernel-based Virtual Machine
 - KVM is a type-2 Hypervisor, which means it runs on a host operating system
 - Other type-2 hypervisors: VirtualBox and Hyper-V
 - In contrast, type-1 hypervisors run on the bare metal and don't need a host operating system.
 - Type-2 Hypervisors include Xen and VMware ESX.
+
+### Use-Case
+Using KVM we can run multiple virtual machines within a server. It does support multiple operating systems ranging from Windows, SUSE, CentOS, Ubuntu, ...
+
+### KVM Hypervisor Advantages
+
 
 
 ## Check if VT (i.e. Virtualization Technology) is enabled/support on the KVM host
