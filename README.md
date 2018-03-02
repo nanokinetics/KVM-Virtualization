@@ -21,7 +21,9 @@ Using KVM we can run multiple virtual machines within a server. It does support 
 ## Check if VT (i.e. Virtualization Technology) is enabled/support on the KVM host
 
 ```sh
-grep -E '(svm|vmx)' /proc/cpuinfo
+egrep -E '(svm|vmx)' /proc/cpuinfo
+
+grep -E '(vmx|svm)' /proc/cpuinfo
 ```
 
 
@@ -38,41 +40,18 @@ Alternatively,
 ```bash
 # yum install qemu-kvm libvirt libvirt-python libguestfs-tools virt-install -y
 
-yum install qemu-kvm qemu-img libvirt virt-install libvirt-python virt-manager virt-install libvirt-client virt-viewer -y
+yum install qemu-kvm qemu-img libvirt virt-install libvirt-python virt-manager libvirt-client virt-viewer bridge-utils -y
 ```
 
 - `qemu-kvm` = QEMU Emulator 
 - `qemu-img` = QEMU Disk Image Manager
+- `virt-install` = Command line tool to create virtual machines
 - `virt-viewer` = Graphical Interface to see virtual machine console
 - `virt-manager` = GUI to Manage Virtual Machines
-- `libvirt` = libvirtd daemon to run services
-- `libvirt-client` = Libvirt client packages
+- `libvirt` = provides `libvirtd` daemon to run services that manage virtual machines and controls hypervisor
+- `libvirt-client` = Libvirt provides client-side API for accessing servers and also provides the `virsh` utility which provides command line tool to manage virtual machines.
 
-After installing required packages verify KVM module is visible from kernel using below command. Insert KVM module to kernel using `modprobe` command
 
-```sh 
-lsmod | grep kvm
-
-modprobe kvm
-
-lsmod | grep kvm
-```
-
-Now start KVM supportable services:
-
-```sh
-systemctl enable libvirt-guests.service
-
-systemctl enable libvirtd
-
-systemctl start libvirt-guests.service
-
-systemctl start libvirtd
-
-systemctl status libvirt-guests.service 
-
-systemctl status libvirtd
-```
 
 **NOTE**: 
 Note: virt-Manager and virt-viewer required Graphical User Interface to launch virtual machine manager
@@ -100,12 +79,36 @@ If not...then,
 
 Start/enable the services:
 ```sh
-sudo systemctl enable libvirtd
 sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
+```
+Now start KVM supportable services:
+
+```sh
+systemctl enable libvirtd
+systemctl start libvirtd
+
+
+systemctl start libvirt-guests.service
+systemctl enable libvirt-guests.service
+
+
+systemctl status libvirt-guests.service 
+systemctl status libvirtd
 ```
 
+After installing required packages verify KVM module is visible from kernel using below command. Insert KVM module to kernel using `modprobe` command
 
-## Configuring `polkit`
+```sh 
+lsmod | grep kvm
+
+modprobe kvm
+
+lsmod | grep kvm
+```
+Reboot the Server and then try to start virt manager.
+
+## Configuring `polkit`: NOT REQUIRED
 
 The following allows a non-root user access to manage KVM guests
 
