@@ -32,7 +32,7 @@ grep -E '(vmx|svm)' /proc/cpuinfo
 Centos 7 OS:
 
 ```sh
-sudo yum groupinstall "Virtualization Host"
+sudo yum groupinstall "Virtualization Host" --optional
 sudo yum install virt-manager
 ```
 
