@@ -227,7 +227,9 @@ BRIDGE=virbr0
 
 1. [HowTo Install KVM Hypervisor RHEL 7 Kernel-Based Virtual Machine](https://arkit.co.in/howto-install-kvm-hypervisor-rhel-7/)
 
-2. 
+2. https://www.centos.org/forums/viewtopic.php?t=57083
+
+
 
 
 
