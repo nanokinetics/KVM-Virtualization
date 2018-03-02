@@ -6,6 +6,7 @@ Major changes CentOS 7.4:
     Technology Preview: Btrfs, OverlayFS, CephFS, the Cisco VIC and usNIC kernel driver and much more.
 
 
+https://www.dynu.com/Resources/Tutorials/DynamicDNS/How-to-access-CentOS-Ubuntu-Linux-Machine-remotely
 
 # Access CentOS/Ubuntu Linux Machine Remotely
 
