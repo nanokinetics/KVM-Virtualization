@@ -108,7 +108,10 @@ lsmod | grep kvm
 ```
 Reboot the Server and then try to start virt manager.
 
-## Configuring `polkit`: NOT REQUIRED
+## Configuring `polkit`: Authorization Rules
+
+**Advantages of PolicyKit**
+PolicyKit allows for more flexible, fine grained access control than just granting access to a named unix group. 
 
 The following allows a non-root user access to manage KVM guests
 
@@ -134,6 +137,7 @@ ResultAny=yes
 ResultInActive=yes
 ResultActive=yes
 ```
+This will allow any member of the unix group libvirt to manage the virtualisation layer, including remotely through SSH. 
 
 Log out and log back in for the current user to activate the changes made.
 
