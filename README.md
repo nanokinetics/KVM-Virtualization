@@ -389,6 +389,7 @@ virt-install \
 Please Note: 
 
 <table>
+    <tbody>
     <tr>
         <td>--network bridge:virbr0</td>
         <td>is the underlying network interface for guest VMs NIC</td>
@@ -445,7 +446,7 @@ Please Note:
         <td>--check all=off</td>
         <td>this is optional, but used for overriding things</td>
     </tr>
-    
+    </tbody>
 </table>
 
 
