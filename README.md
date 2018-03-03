@@ -26,17 +26,23 @@ egrep -E '(svm|vmx)' /proc/cpuinfo
 grep -E '(vmx|svm)' /proc/cpuinfo
 ```
 
+## Disable and stop NetworkManager
+**NetworkManager** is known to caus eproblems wen working with Linux Bridge, so better to disable it:
+```
+sudo systemctl stop NetworkManager
+sudo systemctl disable NetworkManager
+```
 
 ## Installing KVM Packages and enable the required serviced
 
 Centos 7 OS:
 
 ```sh
-sudo yum groupinstall "Virtualization Host" --optional
+sudo yum groupinstall "Virtualization Host"
 sudo yum install virt-manager
 ```
 
-Alternatively, 
+Alternatively, PREFERRED  :heavy_check_mark:
 ```bash
 # yum install qemu-kvm libvirt libvirt-python libguestfs-tools virt-install -y
 
@@ -77,12 +83,7 @@ By default, it is "active(running)".
 
 If not...then,
 
-Start/enable the services:
-```sh
-sudo systemctl start libvirtd
-sudo systemctl enable libvirtd
-```
-Now start KVM supportable services:
+Enable and start KVM supportable services:
 
 ```sh
 systemctl enable libvirtd
@@ -121,11 +122,13 @@ See: [Reference](http://www.linuxsysadmintutorials.com/configure-polkit-to-run-v
 # Create a group 'virt'
 sudo groupadd virt
 
-# Add the User to the group 'virt' 
+# Add the User to the group 'virt', this lets regular user to let him launch `virt-manager` 
 sudo usermod -aG virt <UserName>
 
 sudo mkdir -p /etc/polkit-1/localauthority/50-local.d/
 ```
+
+**METHOD-1**: :OK:
 
 Create a file `/etc/polkit-1/localauthority/50-local.d/50-org.example.libvirt-access.pkla` with contents:
 
@@ -226,6 +229,22 @@ Access can be granted to both groups and individual users at the same time. This
  ResultInactive=yes
  ResultActive=yes
 ```
+
+**METHOD-2**: :warn:
+
+We can set policy (policy-kit) rules for KVM.
+
+Edit file **49-polkit-pkla-compat.rules**:
+
+```
+vim /etc/polkit-1/rules.d/49-polkit-pkla-compat.rules
+```
+add the following at the bottom:
+```
+
+```
+
+
 
 ## GUI Management
 
