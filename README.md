@@ -242,8 +242,10 @@ vim /etc/polkit-1/rules.d/49-polkit-pkla-compat.rules
 add the following at the bottom:
 ```
 polkit.addRule(function(action, subject) {
-    if (action.id == "org.libvirt.unix.manage" &&
-        subject.isInGroup("kvm")) {
+    if (action.id == "org.libvirt.unix.manage"
+        && subject.local
+        && subject.active
+        && subject.isInGroup("<GROUPNAME>")) {
             return polkit.Result.YES;
         }
 });
@@ -316,6 +318,9 @@ During installation, mount the iso `/usr/share/virtio-win/virtio-win.iso` and lo
 
 
 ## Configure the Networking for KVM
+
+REFER: `man nmcli-examples`
+
 
 ### Update the Base Interface File (BIF).
 In this example, `eth1` is the interface connected to internet and will be used as Bridge Interface for the VMs.
