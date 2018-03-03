@@ -386,7 +386,67 @@ virt-install \
     --extra-args="console=tty0 console=ttyS0" \
     --check_all=off
 ```
+Please Note: 
 
+<table>
+    <tr>
+        <td>--network bridge:virbr0</td>
+        <td>is the underlying network interface for guest VMs NIC</td>
+    </tr>
+    
+    <tr>
+        <td>--name testvm1</td>
+        <td>is the name of the bost VM/container</td>
+    </tr>
+    
+    
+    <tr>
+        <td>--os-variant=centos7.0</td>
+        <td>this is the label for CentOS 7 linux variant or distribution</td>
+    </tr>
+    
+    
+    <tr>
+        <td>--ram=1024</td>
+        <td>this will allocate 1G RAM to the guest VM</td>
+    </tr>
+    
+    
+    <tr>
+        <td>--vcpus=1</td>
+        <td>this will allocate 01 vCPU to guest VM</td>
+    </tr>
+    
+    
+    <tr>
+        <td>--disk_path=/kvmstore/testvm1,size=4</td>
+        <td>this creates /kvmstore/testvm1.img as OS store file for the guest VM</td>
+    </tr>
+    
+    <tr>
+        <td>--graphics none</td>
+        <td>this set no graphical user interface, installation will go command line</td>
+    </tr>
+    
+    
+    <tr>
+        <td>--location=/osmedia/CentOS-7-x86_64-DVD-1511.iso</td>
+        <td>location of OS media to be used for the OS installation</td>
+    </tr>
+    
+    
+    <tr>
+        <td>--extra-args="console=tty0 console=ttyS0, 115200"</td>
+        <td>Console connectivity options</td>
+    </tr>
+    
+    
+    <tr>
+        <td>--check all=off</td>
+        <td>this is optional, but used for overriding things</td>
+    </tr>
+    
+</table>
 
 
 
