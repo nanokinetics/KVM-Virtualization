@@ -321,9 +321,9 @@ PEERROUTES=yes
 IPV6_PEERDNS=yes
 IPV6_PEERROUTES=yes
 ```
-### Create a new interface config file for `vibr0`
+### Create a new interface config file for `virbr0`
 
-Please note `vibr0` is the virtual bridge interface to be used in the VMs
+Please note `virbr0` is the virtual bridge interface to be used in the VMs
 
 ```
 cat /etc/sysconfig/network-scripts/ifcfg-virbr0-enp4s0f1
