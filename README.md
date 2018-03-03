@@ -241,7 +241,12 @@ vim /etc/polkit-1/rules.d/49-polkit-pkla-compat.rules
 ```
 add the following at the bottom:
 ```
-
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.libvirt.unix.manage" &&
+        subject.isInGroup("kvm")) {
+            return polkit.Result.YES;
+        }
+});
 ```
 
 
