@@ -17,7 +17,30 @@ Using KVM we can run multiple virtual machines within a server. It does support 
 - High performance w.r.t workloads
 - Secure (SELinux support)
 
+**Host**:
 
+**Guest**: 
+
+**Hypervisor**:
+
+<hr>
+File: `host`
+```
+192.168.2.22 kvmhost kvmhost.nanokinetics.io
+```
+
+Add SSH Public Keys: 
+```
+# ssh into kvmhost from a remote system
+ssh root@kvmhost
+mkdir -p ~/.ssh
+chmod 600 .ssh
+exit
+
+# from remote system
+cat ~/.ssh/*.pub | ssh root@kvmhost "cat >> ~/.ssh/authorized_keys"
+```
+<hr>
 ## Check if VT (i.e. Virtualization Technology) is enabled/support on the KVM host
 
 ```sh
@@ -517,6 +540,10 @@ export LIBVIRT_DEFAULT_URI=qemu:///system
 
 Use `virt-install` to install VMs, use `virsh` to manage them. I almost never use `virt-install` but very frequently use `virsh`.
 
+```
+virt-install --help
+```
+
 ```sh
 
 man virt-install
@@ -544,6 +571,14 @@ virsh destroy <domain>
 man virsh
 
 ```
+## SELinux Virtualbox Image Storage Directory Change:
+
+```
+mkdir /vm
+semanage fcontext -a -t virt_image_t "/vm(/.*)?"
+restorecon -R /vm
+```
+
 
 
 ## Common KVM Management Tasks
