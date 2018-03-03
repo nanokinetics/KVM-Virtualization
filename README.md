@@ -297,44 +297,79 @@ During installation, mount the iso `/usr/share/virtio-win/virtio-win.iso` and lo
 In this example, `eth1` is the interface connected to internet and will be used as Bridge Interface for the VMs.
 
 ```sh
-cat /etc/sysconfig/network-scripts/ifcfg-eth1
+cat /etc/sysconfig/network-scripts/ifcfg-enp4s0f1
 ```
 
 ```
 TYPE=Ethernet
-BOOTPROTO=none
-NAME=eth1
+DEVICE=enp4s0f1
+# BOOTPROTO=none
+NAME=enp4s0f1
 ONBOOT=yes
 HWADDR=00:0c:29:44:3d:2d
 BRIDGE=virbr0
+
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+UUID:
+PEERDNS=yes
+PEERROUTES=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
 ```
 ### Create a new interface config file for `vibr0`
 
 Please note `vibr0` is the virtual bridge interface to be used in the VMs
 
 ```
-cat /etc/sysconfig/network-scripts/ifcfg-virbr0
+cat /etc/sysconfig/network-scripts/ifcfg-virbr0-enp4s0f1
 ```
 
 ```
-TYPE=Ethernet
-DEVICE=vibr0
-BOOTPROTO=none
+TYPE=Bridge
+BOOTPROTO=static
+# DEFROUTE=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+# IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=virbr0
+UUID=3e775e0c-9164-41a6-a7e6-8a58a2a05396
+DEVICE=virbr0
 ONBOOT=yes
-IPADDR=192.168.1.140
+IPADDR=192.168.188.30
 NETMASK=255.255.255.0
-GATEWAY=192.168.1.1
+GATEWAY=192.168.188.1
+DNS1=192.168.188.1
 ```
 
 ### Enable the IPv4 forwarding
 
 Add `net.ipv4.ip_forward = 1` entry in `/usr/lib/sysctl.d/60-libvirtd.conf` and load the file
 
+
 ```
+echo "net.ipv4.ip_forward = 1"|sudo tee /etc/sysctl.d/99-ipforward.conf
+sysctl -p /etc/sysctl.d/99-ipforward.conf
+ifconfig -a
+```
+
+
+
+```
+# DONT USE THIS
 /sbin/sysctl -w /usr/lib/sysctl.d/60-libvirtd.conf
-
 /sbin/sysctl net.ipv4.ip_forward
-
 /sbin/sysctl -p /usr/lib/sysctl.d/60-libvirtd.conf
 ```
 
@@ -371,6 +406,14 @@ cat /etc/sysconfig/network-scripts/route-virbr0
 "192.168.1.0/24 via 192.168.1.140 dev virbr0"
 
 Restart the KVM Host
+
+### Finish and check the KVM installation
+```
+lsmod | grep kvm
+ip a show virbr0
+virsh -c qemu:///system list
+```
+
 
 ## Then Create a Guest VM
 ```
