@@ -546,6 +546,83 @@ man virsh
 ```
 
 
+## Common KVM Management Tasks
+
+List all VMs on a host, in any state
+```
+virsh list --all
+```
+
+To display the VM information/configuration
+```
+virsh dominfo <vm_name>
+```
+
+Stop a VM
+```
+virsh shutdown <vm_name>
+```
+
+Start a VM
+```
+virsh start <vm_name>
+```
+
+Enabling AutoStart of VM
+```
+virsh autostart <vm_name>
+```
+
+Taking console of the VM, from the KVM Host
+```
+virsh console <vm_name>
+```
+
+Deleting Guest VM
+```
+virsh shutdown <vm_name>
+virsh undefine <vm_name>
+virsh destroy <vm_name>
+```
+
+Cloning a VM (Suspend the Source VM first, once cloning finishes resume it.)
+```
+virsh suspend <source_vm>
+virsh-clone --connect qemu:///system --original <source_vm> --name <clone_vm>
+virsh resume <source_name>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Reference
 
 1. [HowTo Install KVM Hypervisor RHEL 7 Kernel-Based Virtual Machine](https://arkit.co.in/howto-install-kvm-hypervisor-rhel-7/)
